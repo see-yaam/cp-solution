@@ -60,7 +60,7 @@ export default function ProblemList({
                 key={problem.letter + problem.name}
                 onClick={() => isUploaded && setSelectedProblem(problem)}
                 className={`
-                  flex items-center justify-between px-4 sm:px-5 py-3 group transition-all duration-200
+                  flex items-center justify-between px-3 sm:px-5 py-2.5 sm:py-3 group transition-all duration-200
                   ${!isLast ? "border-b border-[rgba(51,65,85,0.3)]" : ""}
                   ${isUploaded
                     ? "cursor-pointer hover:bg-[rgba(16,185,129,0.04)]"
@@ -69,15 +69,15 @@ export default function ProblemList({
                 `}
               >
                 {/* Left: "A. Problem Name" */}
-                <div className="flex items-center gap-2 min-w-0 flex-1 pr-4">
+                <div className="flex items-center gap-2 min-w-0 flex-1 pr-3">
                   <span className={`
-                    text-sm font-bold shrink-0
+                    text-xs sm:text-sm font-bold shrink-0
                     ${isUploaded ? "text-[var(--emerald)]" : "text-[var(--text-muted)]"}
                   `}>
                     {problem.letter}.
                   </span>
                   <span className={`
-                    text-sm font-medium truncate transition-colors
+                    text-[13px] sm:text-sm font-medium truncate transition-colors
                     ${isUploaded
                       ? "text-[#e2e8f0] group-hover:text-white"
                       : "text-[var(--text-muted)]"
@@ -88,7 +88,7 @@ export default function ProblemList({
                 </div>
 
                 {/* Right: CF Link + Status dot */}
-                <div className="flex items-center gap-3 shrink-0">
+                <div className="flex items-center gap-2 sm:gap-3 shrink-0">
                   {/* CF Link */}
                   <a
                     href={cfLink}

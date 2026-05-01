@@ -99,7 +99,7 @@ export default async function AssiutDashboard(
   return (
     <>
       {/* Sidebar */}
-      <Suspense fallback={<div className="w-56 xl:w-64 shrink-0 bg-[var(--bg-surface)] border-r border-[var(--border-subtle)]" />}>
+      <Suspense fallback={<div className="w-full lg:w-56 xl:w-64 h-12 lg:h-full bg-[var(--bg-surface)] border-b lg:border-b-0 lg:border-r border-[var(--border-subtle)]" />}>
         <ContestSidebar />
       </Suspense>
 

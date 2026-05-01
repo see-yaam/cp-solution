@@ -100,44 +100,44 @@ export default function CodeViewerModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-8 animate-fade-in"
+      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4 animate-fade-in"
       style={{ background: "rgba(0, 0, 0, 0.75)", backdropFilter: "blur(8px)" }}
       onClick={onClose}
     >
       <div
-        className="w-full max-w-4xl max-h-[85vh] flex flex-col rounded-2xl border border-[var(--border-subtle)] overflow-hidden animate-slide-up"
+        className="w-full max-w-5xl h-[92vh] sm:max-h-[85vh] flex flex-col rounded-t-2xl sm:rounded-2xl border-t sm:border border-[var(--border-subtle)] overflow-hidden animate-slide-up"
         style={{ background: "var(--bg-surface)" }}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-[var(--border-subtle)] shrink-0">
-          <div className="flex items-center gap-3 min-w-0">
+        <div className="flex items-center justify-between px-4 sm:px-5 py-3 sm:py-4 border-b border-[var(--border-subtle)] shrink-0">
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0">
             <div className={`
-              w-9 h-9 rounded-lg flex items-center justify-center font-bold text-sm shrink-0
+              w-8 h-8 sm:w-9 sm:h-9 rounded-lg flex items-center justify-center font-bold text-xs sm:text-sm shrink-0
               bg-[var(--emerald-glow)] text-[var(--emerald)] border border-[rgba(16,185,129,0.2)]
             `}>
               {problem.letter}
             </div>
             <div className="min-w-0">
-              <h2 className="text-lg font-bold text-[var(--text-primary)] truncate">
+              <h2 className="text-base sm:text-lg font-bold text-[var(--text-primary)] truncate">
                 {problem.name}
               </h2>
-              <p className="text-xs text-[var(--text-muted)]">{folderName}</p>
+              <p className="text-[10px] sm:text-xs text-[var(--text-muted)] truncate">{folderName}</p>
             </div>
           </div>
-          <div className="flex items-center gap-2 shrink-0 ml-4">
+          <div className="flex items-center gap-2 shrink-0 ml-2">
             <a
               href={cfLink}
               target="_blank"
               rel="noreferrer"
-              className="btn-primary text-xs py-2 px-3.5"
+              className="btn-primary text-[10px] sm:text-xs py-1.5 sm:py-2 px-2.5 sm:px-3.5"
             >
-              Open on Codeforces
-              <ExternalLink className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">Open on </span>Codeforces
+              <ExternalLink className="w-3 sm:w-3.5 h-3 sm:h-3.5" />
             </a>
             <button
               onClick={onClose}
-              className="p-2 text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[rgba(51,65,85,0.3)] rounded-lg transition-all"
+              className="p-1.5 sm:p-2 text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:bg-[rgba(51,65,85,0.3)] rounded-lg transition-all"
               aria-label="Close"
             >
               <X className="w-5 h-5" />

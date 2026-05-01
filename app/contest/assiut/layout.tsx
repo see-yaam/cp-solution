@@ -42,7 +42,7 @@ export default function AssiutLayout({
       </header>
 
       {/* Body */}
-      <div className="flex-1 flex overflow-hidden">
+      <div className="flex-1 flex flex-col lg:flex-row overflow-hidden">
         {children}
       </div>
     </div>
