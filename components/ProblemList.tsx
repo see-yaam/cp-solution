@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ExternalLink } from "lucide-react";
 import CodeViewerModal from "./CodeViewerModal";
+import { getCodeforcesLink } from "@/lib/constants";
 
 interface GitHubFile {
   name: string;
@@ -26,7 +27,7 @@ export interface ProblemData {
 export default function ProblemList({
   problems,
   folderName,
-  contestId
+  contestId,
 }: {
   problems: ProblemData[];
   folderName: string;
@@ -36,68 +37,72 @@ export default function ProblemList({
 
   if (!problems || problems.length === 0) {
     return (
-      <div className="p-8 text-center text-slate-500 dark:text-slate-400">
-        No problems found.
+      <div className="flex flex-col items-center justify-center py-20 text-center">
+        <div className="w-16 h-16 rounded-2xl bg-[rgba(51,65,85,0.2)] flex items-center justify-center mb-4">
+          <span className="text-2xl">📝</span>
+        </div>
+        <p className="text-[var(--text-muted)] text-sm">No problems found for this sheet.</p>
       </div>
     );
   }
 
   return (
     <>
-      <div className="flex flex-col w-full max-w-5xl mx-auto p-4 sm:p-6 lg:p-8">
-        <div className="border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden bg-white dark:bg-slate-950 shadow-sm">
+      <div className="max-w-4xl">
+        <div className="rounded-xl border border-[var(--border-subtle)] overflow-hidden bg-[var(--bg-card)] backdrop-blur-sm">
           {problems.map((problem, index) => {
             const isUploaded = problem.status === "uploaded";
             const isLast = index === problems.length - 1;
-            
+            const cfLink = getCodeforcesLink(contestId, problem.letter);
+
             return (
               <div
                 key={problem.letter + problem.name}
-                onClick={() => setSelectedProblem(problem)}
-                className={`flex items-center justify-between px-5 py-3.5 group cursor-pointer transition-colors ${
-                  !isLast ? "border-b border-slate-100 dark:border-slate-800/60" : ""
-                } hover:bg-slate-50 dark:hover:bg-slate-900`}
+                onClick={() => isUploaded && setSelectedProblem(problem)}
+                className={`
+                  flex items-center justify-between px-4 sm:px-5 py-3 group transition-all duration-200
+                  ${!isLast ? "border-b border-[rgba(51,65,85,0.3)]" : ""}
+                  ${isUploaded
+                    ? "cursor-pointer hover:bg-[rgba(16,185,129,0.04)]"
+                    : "opacity-60"
+                  }
+                `}
               >
-                {/* Left Side: ID & Name */}
-                <div className="flex items-center gap-4 min-w-0 flex-1 pr-4">
-                  <div className="w-6 text-sm font-semibold text-slate-400 dark:text-slate-500 text-right shrink-0">
-                    {problem.letter}
-                  </div>
-                  <div className={`text-sm font-medium truncate ${
-                    isUploaded ? "text-slate-900 dark:text-slate-100" : "text-slate-500 dark:text-slate-400"
-                  }`}>
+                {/* Left: "A. Problem Name" */}
+                <div className="flex items-center gap-2 min-w-0 flex-1 pr-4">
+                  <span className={`
+                    text-sm font-bold shrink-0
+                    ${isUploaded ? "text-[var(--emerald)]" : "text-[var(--text-muted)]"}
+                  `}>
+                    {problem.letter}.
+                  </span>
+                  <span className={`
+                    text-sm font-medium truncate transition-colors
+                    ${isUploaded
+                      ? "text-[#e2e8f0] group-hover:text-white"
+                      : "text-[var(--text-muted)]"
+                    }
+                  `}>
                     {problem.name}
-                  </div>
+                  </span>
                 </div>
 
-                {/* Right Side: Status & Link */}
-                <div className="flex items-center gap-6 shrink-0">
-                  {/* Status Indicator */}
-                  <div className="hidden sm:flex items-center gap-2 w-28">
-                    {isUploaded ? (
-                      <>
-                        <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.4)]"></div>
-                        <span className="text-xs font-medium text-emerald-600 dark:text-emerald-400">Available</span>
-                      </>
-                    ) : (
-                      <>
-                        <div className="w-2 h-2 rounded-full bg-slate-300 dark:bg-slate-700"></div>
-                        <span className="text-xs text-slate-400 dark:text-slate-500">Pending</span>
-                      </>
-                    )}
-                  </div>
-
-                  {/* Codeforces Link */}
+                {/* Right: CF Link + Status dot */}
+                <div className="flex items-center gap-3 shrink-0">
+                  {/* CF Link */}
                   <a
-                    href={`https://codeforces.com/group/MWSDmqGsZm/contest/${contestId}/problem/${problem.letter}`}
+                    href={cfLink}
                     target="_blank"
                     rel="noreferrer"
                     onClick={(e) => e.stopPropagation()}
-                    className="p-2 text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-md transition-colors"
-                    title="View on Codeforces"
+                    className="p-1.5 text-[var(--text-muted)] hover:text-blue-400 rounded-md transition-colors hover:bg-[rgba(51,65,85,0.3)]"
+                    title="Open on Codeforces"
                   >
-                    <ExternalLink className="w-4 h-4" />
+                    <ExternalLink className="w-3.5 h-3.5" />
                   </a>
+
+                  {/* Status dot */}
+                  <div className={isUploaded ? "neon-dot" : "neon-dot-gray"} />
                 </div>
               </div>
             );
