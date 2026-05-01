@@ -15,6 +15,9 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "CP Explorer Hub",
   description: "A premium competitive programming solution explorer. Browse, study, and learn from curated CP solutions.",
+  icons: {
+    icon: "/icon.png",
+  },
 };
 
 export default function RootLayout({
