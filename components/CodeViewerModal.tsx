@@ -74,7 +74,7 @@ export default function CodeViewerModal({
     fetchCode();
   }, [isOpen, problem]);
 
-  // Fetch Problem Statement via AllOrigins Proxy
+  // Fetch Problem Statement via Internal Edge Proxy
   useEffect(() => {
     if (!isOpen || !problem) return;
 
@@ -84,23 +84,17 @@ export default function CodeViewerModal({
     const fetchProblemStatement = async () => {
       setLoadingProblem(true);
       try {
-        const cfUrl = `https://codeforces.com/problemset/problem/${contestId}/${problem.letter}`;
-        const res = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(cfUrl)}`);
+        const res = await fetch(`/api/problem?contestId=${contestId}&problemIndex=${problem.letter}`);
         
         if (res.ok) {
-          const data = await res.json();
+          const html = await res.text();
           const parser = new DOMParser();
-          const doc = parser.parseFromString(data.contents, "text/html");
+          const doc = parser.parseFromString(html, "text/html");
           const problemStatement = doc.querySelector(".problem-statement");
           
           if (problemStatement) {
-            // Clean up the HTML: remove any relative links if necessary, or just keep as is
-            // Codeforces uses $$$ for math, we handle that in processMath
-            
             setProblemDetails({
               html: problemStatement.innerHTML,
-              // We can still extract these if we want to use them elsewhere, 
-              // but rendering innerHTML directly handles most of it.
             });
           } else {
             setApiError(true);
@@ -209,6 +203,7 @@ export default function CodeViewerModal({
             </div>
             
             <div className="flex-1 overflow-auto relative">
+              <link rel="stylesheet" href="https://codeforces.com/s/89546/css/problem-statement.css" />
               {/* CSS Scoping for Codeforces HTML */}
               <style>{`
                 .cf-content {
