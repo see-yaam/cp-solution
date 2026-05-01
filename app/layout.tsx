@@ -1,19 +1,21 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Geist, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import "katex/dist/katex.min.css";
 
-const inter = Inter({
-  variable: "--font-inter",
+const geist = Geist({
   subsets: ["latin"],
+  variable: "--font-geist",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-jetbrains-mono",
 });
 
 export const metadata: Metadata = {
-  title: "CP Solution Explorer",
-  description: "Browse CP solutions from GitHub",
+  title: "CP Explorer Hub",
+  description: "A premium competitive programming solution explorer. Browse, study, and learn from curated CP solutions.",
 };
-
-import Sidebar from "@/components/Sidebar";
 
 export default function RootLayout({
   children,
@@ -23,13 +25,10 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} h-full antialiased font-sans`}
+      className={`${geist.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-50">
-        <Sidebar />
-        <main className="flex-1 h-screen overflow-y-auto border-l border-slate-200 dark:border-slate-800">
-          {children}
-        </main>
+      <body className="min-h-full">
+        {children}
       </body>
     </html>
   );
